@@ -2,24 +2,32 @@
 package notafiscal.entidade;
 
 public abstract class Imposto {
-	private Double aliquotaFederal;
+	private Double aliquotaFederal = 0.15;
 
-	protected Double valor;
+	protected Double valor; // Valor da Nota
 
 	/**
-	 * @param valor
+	 * @param valorDaNota
 	 */
-	public Imposto(Double valor) {
+	public Imposto(Double valorDaNota) {
 		super();
-		this.valor = valor;
+		this.valor = valorDaNota;
 	}
 
+	/** 
+	 * Calcula a soma dos valores Federal e Estadual
+	 * @return a soma das aliquotas a partir do 'valor'
+	 */
 	public Double calcularImpostoTotal() {
 		return this.calcularImpostoFederal() + this.calcularImpostoEstadual();
 	}
 
+	/**
+	 * Calcula o valor do Imposto Federal
+	 * @return o valor do imposto, a partir do 'valor' da nota
+	 */
 	public Double calcularImpostoFederal() {
-		return aliquotaFederal = valor * 0.15;
+		return valor * getAliquotaFederal();
 	}
 
 	public abstract Double calcularImpostoEstadual();

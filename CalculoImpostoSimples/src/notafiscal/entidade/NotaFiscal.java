@@ -2,97 +2,108 @@
 package notafiscal.entidade;
 
 import java.util.Date;
+
 public class NotaFiscal implements Comparable<NotaFiscal> {
-  private String numero;
+	private String numero;
 
-  private String descricao;
+	private String descricao;
 
-  private Date dataEmissao;
+	private Date dataEmissao;
 
-  private Imposto imposto;
+	private Imposto imposto;
 
-  private Double valorSemImposto;
+	private Double valorSemImposto;
 
-  private Double valorComImposto;
+	private Double valorComImposto;
 
-  private Boolean cancelada;
+	private Boolean cancelada;
 
-  
-  
-  /**
- * @param numero
- * @param descricao
- * @param imposto
- * @param valor
- */
-public NotaFiscal(String numero, String descricao, Imposto imposto, Double valor) {
-	super();
-	this.numero = numero;
-	this.descricao = descricao;
-	this.imposto = imposto;
-	this.valorSemImposto = valor;
-}
-
-public String getNumero() {
-		return numero;
-  }
-
-  public void setNumero(String numero) {
+	/**
+	 * @param numero
+	 * @param descricao
+	 * @param imposto
+	 * @param valor
+	 */
+	public NotaFiscal(String numero, String descricao, Imposto imposto, Double valor) {
+		super();
 		this.numero = numero;
-  }
-
-  public String getDescricao() {
-		return descricao;
-  }
-
-  public void setDescricao(String descricao) {
 		this.descricao = descricao;
-  }
-
-  public Date getDataEmissao() {
-		return dataEmissao;
-  }
-
-  public void setDataEmissao(Date dataEmissao) {
-		this.dataEmissao = dataEmissao;
-  }
-
-  public Imposto getImposto() {
-		return imposto;
-  }
-
-  public void setImposto(Imposto imposto) {
 		this.imposto = imposto;
-  }
-
-  public Double getValor() {
-		return valorSemImposto;
-  }
-
-  public void setValor(Double valor) {
 		this.valorSemImposto = valor;
-  }
 
-  public Double getValorComImposto() {
+		this.dataEmissao = new Date();
+		this.cancelada = false;
+
+		this.valorComImposto = this.valorSemImposto + this.imposto.calcularImpostoTotal();
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Date getDataEmissao() {
+		return dataEmissao;
+	}
+
+	public void setDataEmissao(Date dataEmissao) {
+		this.dataEmissao = dataEmissao;
+	}
+
+	public Imposto getImposto() {
+		return imposto;
+	}
+
+	public void setImposto(Imposto imposto) {
+		this.imposto = imposto;
+	}
+
+	public Double getValor() {
+		return valorSemImposto;
+	}
+
+	public void setValor(Double valor) {
+		this.valorSemImposto = valor;
+	}
+
+	public Double getValorComImposto() {
 		return valorComImposto + this.getValor() * this.imposto.getAliquotaFederal();
-  }
+	}
 
-  public void setValorComImposto(Double valorComImposto) {
+	public void setValorComImposto(Double valorComImposto) {
 		this.valorComImposto = valorComImposto;
-  }
+	}
 
-  public Boolean getCancelada() {
+	public Boolean getCancelada() {
 		return cancelada;
-  }
+	}
 
-  public void setCancelada(Boolean cancelada) {
+	public void setCancelada(Boolean cancelada) {
 		this.cancelada = cancelada;
-  }
+	}
 
-  @Override
-  public int compareTo(NotaFiscal notaFiscal) {
+	@Override
+	public int compareTo(NotaFiscal notaFiscal) {
 
 		return this.getNumero().compareTo(notaFiscal.numero);
-  }
+	}
+
+	@Override
+	public String toString() {
+		return "NotaFiscal [numero=" + numero + ", descricao=" + descricao + ", dataEmissao=" + dataEmissao
+				+ ", imposto=" + imposto + ", valorSemImposto=" + valorSemImposto + ", valorComImposto="
+				+ valorComImposto + ", cancelada=" + cancelada + "]";
+	}
 
 }

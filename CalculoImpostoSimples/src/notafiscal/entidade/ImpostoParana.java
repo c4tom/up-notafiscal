@@ -2,13 +2,15 @@
 package notafiscal.entidade;
 
 public class ImpostoParana extends Imposto {
-	public ImpostoParana(Double valor) {
-		super(valor);
+	private static final Double ALIQUOTA = 0.05;
+	
+	public ImpostoParana(Double valorDaNota) {
+		super(valorDaNota);
 	}
 
 	@Override
 	public Double calcularImpostoEstadual() {
-		return this.valor;
+		return this.valor * ALIQUOTA;
 	}
 
 }

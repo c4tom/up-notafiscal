@@ -3,8 +3,6 @@ package notafiscal.apresentacao;
 
 import java.util.Scanner;
 
-import com.github.javafaker.Faker;
-
 /**
  * Classe especifica para realizar operações de entrada e saída de dados no
  * Console.

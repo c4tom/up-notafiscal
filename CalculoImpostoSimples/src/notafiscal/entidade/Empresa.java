@@ -28,12 +28,20 @@ public class Empresa {
 		return cnpj;
 	}
 
+	public void addNotas(NotaFiscal nota) {
+		getNotasFiscais().add(nota);
+	}
+	
 	public ArrayList<NotaFiscal> getNotasFiscais() {
 		return notasFiscais;
 	}
 
-	public void ImprimeCNPJeNome() {
-		System.out.println("CNPJ="+getCnpj() + " - " + getNome());
+	public void imprimeCNPJeNome() {
+		System.out.println(getCnpjNomeNotas());
+	}
+	
+	public String getCnpjNomeNotas() {
+		return "CNPJ="+getCnpj() + " - " + getNome() + " - Notas=" + getNotasFiscais().size();
 	}
 	
 	@Override
@@ -78,12 +86,19 @@ public class Empresa {
 		for (Empresa emp : empresas) {
 			if (emp.getNome().toUpperCase().contains(nomeEmpresaAFiltrar.toUpperCase())) {
 				System.out.print(indice + ") ");
-				emp.ImprimeCNPJeNome();
+				emp.imprimeCNPJeNome();
 				contador++;
 			}
 			indice++;
 		}
 		return contador;
+	}
+
+	public void listarNotas() {
+		for(NotaFiscal nota: getNotasFiscais()) {
+			System.out.println(nota.toString());
+		}
+		
 	}
 
 	

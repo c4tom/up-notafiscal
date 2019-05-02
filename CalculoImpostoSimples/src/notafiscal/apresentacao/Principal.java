@@ -4,42 +4,48 @@ package notafiscal.apresentacao;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.github.javafaker.Faker;
+
 import notafiscal.entidade.Empresa;
 import notafiscal.entidade.ImpostoParana;
 import notafiscal.entidade.ImpostoSantaCatarina;
+import notafiscal.entidade.ImpostoSaoPaulo;
 import notafiscal.entidade.NotaFiscal;
 
 public class Principal {
-	private static final Double ALIQUOTA_PR = 0.05;
-	private static final Double ALIQUOTA_SC = 0.1;
-	private static final Double ALIQUOTA_SP = 0.18;
 
 	public static ArrayList<Empresa> empresas = new ArrayList<>(); // Armazena a lista de Empresas
 	public static Integer empresaSelecionada; // Variavel para registrar a empresa selecionada pelo indice de 'empresas'
 
-	public static void main(String[] args) throws IOException {
+	public static String numeroNota = "1"; // Valor incrementado
+	
+	
+	public static void main(String[] args) throws IOException, InterruptedException {
 		boolean continua = true;
-
+		
 		ConsoleFaker.setFake(true);
 		populaEmpresas(10);
 
 		do {
-			System.out.println("============================================================================");
 			ConsoleFaker.clearScreen();
 			String opcoes[] = { "Cadastro de Empresa", "Consulta Empresa", "Listar Empresas", "Exclusão de Empresa",
-					"Emitir Nota" };
+					"Emitir Nota", "Listar Notas" };
 
 			if (empresaSelecionada != null) {
-				empresas.get(empresaSelecionada).ImprimeCNPJeNome();
-				System.out.println("============================================================================");
+				ConsoleFaker.banner(empresas.get(empresaSelecionada).getCnpjNomeNotas());
+
 			}
 
 			int escolha = Console.mostrarMenu(opcoes, "Calculo de Imposto Simples", null);
 
 			switch (escolha) {
+
+			// ### Cadastro de Empresa
 			case 1:
 				cadastraEmpresa();
 				break;
+
+			// ### Consulta Empresa
 			case 2:
 				String nomeEmpresaAFiltrar = Console.recuperaTexto("Consulta por Nome (parte do nome)");
 				int contador = Empresa.filtrarPorNome(nomeEmpresaAFiltrar, empresas);
@@ -54,24 +60,26 @@ public class Principal {
 				}
 
 				break;
+			// ### Listar Empresa
 			case 3:
 				for (Empresa e : empresas) {
-					e.ImprimeCNPJeNome();
+					e.imprimeCNPJeNome();
 				}
 				System.in.read();
 				break;
-
+			// ### Exclusao de Empresa
 			case 4:
 				deletaEmpresa();
 				break;
+			// ### Emissao de Nota
 			case 5:
 				menuNotaEstados();
 				break;
-
+			case 6:
+				empresas.get(empresaSelecionada).listarNotas();
+				break;
 			case -1:
-				System.out.println("###################");
-				System.out.println("Sistema finalizado.");
-				System.out.println("###################");
+				ConsoleFaker.banner("FIM do Programa");
 				continua = false;
 			}
 			System.out.println("\n");
@@ -105,20 +113,26 @@ public class Principal {
 	public static void menuNotaEstados() {
 		String opcoes[] = { "PR", "SC", "SP" };
 		int escolha = Console.mostrarMenu(opcoes, "Emissão de Nota Por Estado", null);
-
+		
+		// Numero da nota será sequencial
+		numeroNota = String.valueOf(Integer.parseInt(numeroNota) + 1);
+		
+		String descricao = ConsoleFaker.descricaoNota();
+		double valorDaNota = ConsoleFaker.valorDaNota();
+		
 		switch (escolha) {
 		case 1:
-			ImpostoParana impostoPR = new ImpostoParana(ALIQUOTA_PR);
-			String numeroNota = ConsoleFaker.numeroRandomico();
-			NotaFiscal nfPR = new NotaFiscal("0000001", "Carrinho Controle Remoto", impostoPR, 1000d);
+			ImpostoParana impostoPR = new ImpostoParana(valorDaNota);
+			NotaFiscal nfPR = new NotaFiscal(numeroNota, descricao, impostoPR, valorDaNota);
 
 			nfPR.getValorComImposto();
+			empresas.get(empresaSelecionada).addNotas(nfPR);
 			break;
 		case 2:
-			new ImpostoSantaCatarina(ALIQUOTA_SC);
+			new ImpostoSantaCatarina(valorDaNota);
 			break;
 		case 3:
-			new ImpostoSantaCatarina(ALIQUOTA_SP);
+			new ImpostoSaoPaulo(valorDaNota);
 			break;
 		default:
 			break;

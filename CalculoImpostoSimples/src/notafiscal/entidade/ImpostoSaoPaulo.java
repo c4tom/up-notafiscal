@@ -2,15 +2,17 @@
 package notafiscal.entidade;
 
 public class ImpostoSaoPaulo extends Imposto {
-	public ImpostoSaoPaulo(Double valor) {
-		super(valor);
+
+	private static final Double ALIQUOTA = 0.18;
+
+	public ImpostoSaoPaulo(Double valorDaNota) {
+		super(valorDaNota);
 
 	}
 
 	@Override
 	public Double calcularImpostoEstadual() {
-		return null;
-
+		return this.valor * ALIQUOTA;
 	}
 
 }
