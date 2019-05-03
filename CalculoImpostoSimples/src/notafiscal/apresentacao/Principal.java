@@ -4,8 +4,6 @@ package notafiscal.apresentacao;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.github.javafaker.Faker;
-
 import notafiscal.entidade.Empresa;
 import notafiscal.entidade.ImpostoParana;
 import notafiscal.entidade.ImpostoSantaCatarina;
@@ -18,11 +16,10 @@ public class Principal {
 	public static Integer empresaSelecionada; // Variavel para registrar a empresa selecionada pelo indice de 'empresas'
 
 	public static String numeroNota = "1"; // Valor incrementado
-	
-	
+
 	public static void main(String[] args) throws IOException, InterruptedException {
 		boolean continua = true;
-		
+
 		ConsoleFaker.setFake(true);
 		populaEmpresas(10);
 
@@ -87,6 +84,9 @@ public class Principal {
 
 	}
 
+	/**
+	 * Remove Empresa Selecionada, porém se tiver nota, não pode
+	 */
 	private static void deletaEmpresa() {
 		String nomeEmpresaAFiltrar = Console.recuperaTexto("Consulta por Nome (parte do nome)");
 		int contador = Empresa.filtrarPorNome(nomeEmpresaAFiltrar, empresas);
@@ -98,11 +98,16 @@ public class Principal {
 			if (empresas.get(indice) == null) {
 				System.out.println("Nao selecionou o indice correto");
 			} else {
-				empresas.remove(indice);
-				empresaSelecionada--;
+				if (empresas.get(indice).getNotasFiscais().size() == 0) {
+					empresas.remove(indice);
+					empresaSelecionada--;
+					if (empresaSelecionada < 0) {
+						empresaSelecionada = null;
+					}
 
-				if (empresaSelecionada < 0) {
-					empresaSelecionada = null;
+				} else {
+					ConsoleFaker.txtCor(Color.RED_BOLD_BRIGHT,
+							"Atenção: Não pode ser removido pois tem notas vinculadas");
 				}
 
 			}
@@ -110,16 +115,16 @@ public class Principal {
 
 	}
 
-	public static void menuNotaEstados() {
+	private static void menuNotaEstados() {
 		String opcoes[] = { "PR", "SC", "SP" };
 		int escolha = Console.mostrarMenu(opcoes, "Emissão de Nota Por Estado", null);
-		
+
 		// Numero da nota será sequencial
 		numeroNota = String.valueOf(Integer.parseInt(numeroNota) + 1);
-		
+
 		String descricao = ConsoleFaker.descricaoNota();
 		double valorDaNota = ConsoleFaker.valorDaNota();
-		
+
 		switch (escolha) {
 		case 1:
 			ImpostoParana impostoPR = new ImpostoParana(valorDaNota);
@@ -145,7 +150,7 @@ public class Principal {
 	 * 
 	 * @param tamanho - Quantidade registros a gerar
 	 */
-	public static void populaEmpresas(int tamanho) {
+	private static void populaEmpresas(int tamanho) {
 		int i = 0;
 		do {
 			cadastraEmpresa();
@@ -157,7 +162,7 @@ public class Principal {
 	 * Solicita Nome da Empresa e Cnpj para adicionar a lista de 'empresas' Se
 	 * ConsoleFaker.isFake=true, é gerado automaticamente
 	 */
-	public static void cadastraEmpresa() {
+	private static void cadastraEmpresa() {
 		String nome = ConsoleFaker.nomeEmpresa();
 		String cnpj = ConsoleFaker.cnpj();
 		Empresa empresa = new Empresa(nome, cnpj);

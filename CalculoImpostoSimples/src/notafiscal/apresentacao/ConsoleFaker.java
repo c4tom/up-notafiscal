@@ -126,8 +126,9 @@ public class ConsoleFaker extends Console {
 	 * @param texto - Texto
 	 */
 	public static void txtCor(Color cor, String texto) {
-		System.out.print(cor);
-		System.out.println(texto);
+		System.out.print(Color.GREEN + "============================================================================\n");
+		System.out.println(cor + texto);
+		System.out.print(Color.GREEN + "============================================================================\n");
 		System.out.print(Color.RESET);
 	}
 }
