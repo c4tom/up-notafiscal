@@ -14,4 +14,9 @@ public class ImpostoSantaCatarina extends Imposto {
 
 	}
 
+	@Override
+	public String toString() {
+		return "ImpostoSantaCatarina [valor=" + valor + "]";
+	}
+
 }

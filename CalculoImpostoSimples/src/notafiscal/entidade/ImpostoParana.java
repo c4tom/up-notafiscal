@@ -13,4 +13,9 @@ public class ImpostoParana extends Imposto {
 		return this.valor * ALIQUOTA;
 	}
 
+	@Override
+	public String toString() {
+		return "ImpostoParana [valor=" + valor + "]";
+	}
+
 }

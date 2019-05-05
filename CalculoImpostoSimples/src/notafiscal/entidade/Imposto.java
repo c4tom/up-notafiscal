@@ -14,8 +14,9 @@ public abstract class Imposto {
 		this.valor = valorDaNota;
 	}
 
-	/** 
+	/**
 	 * Calcula a soma dos valores Federal e Estadual
+	 * 
 	 * @return a soma das aliquotas a partir do 'valor'
 	 */
 	public Double calcularImpostoTotal() {
@@ -24,6 +25,7 @@ public abstract class Imposto {
 
 	/**
 	 * Calcula o valor do Imposto Federal
+	 * 
 	 * @return o valor do imposto, a partir do 'valor' da nota
 	 */
 	public Double calcularImpostoFederal() {
@@ -35,4 +37,10 @@ public abstract class Imposto {
 	public Double getAliquotaFederal() {
 		return aliquotaFederal;
 	}
+
+	@Override
+	public String toString() {
+		return "Imposto [aliquotaFederal=" + aliquotaFederal + ", valor=" + valor + "]";
+	}
+
 }

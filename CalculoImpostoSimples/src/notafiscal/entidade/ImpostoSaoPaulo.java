@@ -15,4 +15,9 @@ public class ImpostoSaoPaulo extends Imposto {
 		return this.valor * ALIQUOTA;
 	}
 
+	@Override
+	public String toString() {
+		return "ImpostoSaoPaulo [valor=" + valor + "]";
+	}
+
 }

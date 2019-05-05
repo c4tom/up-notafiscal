@@ -96,7 +96,7 @@ public class NotaFiscal implements Comparable<NotaFiscal> {
 	@Override
 	public int compareTo(NotaFiscal notaFiscal) {
 
-		return this.getNumero().compareTo(notaFiscal.numero);
+		return this.getValor().compareTo(notaFiscal.getValor());
 	}
 
 	@Override

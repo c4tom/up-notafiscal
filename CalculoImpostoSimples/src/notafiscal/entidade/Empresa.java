@@ -1,6 +1,7 @@
 
 package notafiscal.entidade;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Empresa {
@@ -94,12 +95,40 @@ public class Empresa {
 		return contador;
 	}
 
+	/**
+	 * Contador de notas
+	 * @param canceladas true somente as canceladas, false somente as não canceladas, null todas as notas
+	 * @return
+	 */
+	public int contarNotasNaoCanceladas() {
+		int contador = 0;
+		for(NotaFiscal nota: getNotasFiscais()) {
+			if (!nota.getCancelada()) contador++;
+		}
+		return contador;
+	}
+	
 	public void listarNotas() {
 		for(NotaFiscal nota: getNotasFiscais()) {
 			System.out.println(nota.toString());
 		}
 		
 	}
-
-	
+	/**
+	 * Imprime na tela uma nota fiscal
+	 * @param indice se não for null, imprime índice
+	 * @param nota - Objeto Notafiscal
+	 */
+	public static void imprimirNaTelaNotaFiscal(Integer indice, NotaFiscal nota) {
+		System.out.println("-----------------------------------------------------------");
+		if(indice != null) System.out.println(indice + ") ");
+		System.out.println("Numero: " + nota.getNumero());
+		System.out.println("Descrição: " + nota.getDescricao());
+		System.out.println("Valor Total: " + nota.getValorComImposto());
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String date = dateFormat.format(nota.getDataEmissao());
+		
+		System.out.println("Data: " + date);
+	}
 }
